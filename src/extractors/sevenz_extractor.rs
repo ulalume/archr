@@ -1,0 +1,45 @@
+use anyhow::Result;
+use indicatif::{ProgressBar, ProgressStyle};
+use sevenz_rust::{Password, SevenZReader};
+use std::fs::{self, File};
+use std::path::Path;
+
+pub fn extract_7z(file_path: &Path, extract_dir: &Path) -> Result<()> {
+    let mut file = File::open(file_path)?;
+    let file_size = file.metadata()?.len();
+    let mut sz = SevenZReader::new(&mut file, file_size, Password::empty())?;
+
+    fs::create_dir_all(extract_dir)?;
+
+    // プログレスバーの設定（7zも事前にエントリ数が分からないのでスピナー形式）
+    let pb = ProgressBar::new_spinner();
+    pb.set_style(ProgressStyle::default_spinner()
+        .template("{spinner:.green} {elapsed_precise} {msg}")
+        .unwrap());
+    pb.set_message("7Zファイルを解凍中...");
+
+    sz.for_each_entries(|entry, reader| {
+        let entry_path = extract_dir.join(&entry.name);
+        
+        // プログレスバーのメッセージを更新
+        if let Some(file_name) = std::path::Path::new(&entry.name).file_name().and_then(|s| s.to_str()) {
+            pb.set_message(format!("解凍中: {}", file_name));
+        }
+        
+        if entry.is_directory() {
+            fs::create_dir_all(&entry_path)?;
+        } else {
+            if let Some(parent) = entry_path.parent() {
+                fs::create_dir_all(parent)?;
+            }
+            
+            let mut output_file = File::create(&entry_path)?;
+            std::io::copy(reader, &mut output_file)?;
+        }
+        
+        Ok(true)
+    })?;
+
+    pb.finish_with_message("7Z解凍完了!");
+    Ok(())
+}

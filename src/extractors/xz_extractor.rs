@@ -1,0 +1,34 @@
+use anyhow::Result;
+use indicatif::{ProgressBar, ProgressStyle};
+use std::fs::{self, File};
+use std::io::BufReader;
+use std::path::Path;
+use xz2::read::XzDecoder;
+
+pub fn extract_xz(file_path: &Path, extract_dir: &Path) -> Result<()> {
+    let file = File::open(file_path)?;
+    let reader = BufReader::new(file);
+    let mut decoder = XzDecoder::new(reader);
+    
+    fs::create_dir_all(extract_dir)?;
+    
+    // プログレスバーの設定
+    let pb = ProgressBar::new_spinner();
+    pb.set_style(ProgressStyle::default_spinner()
+        .template("{spinner:.green} {elapsed_precise} {msg}")
+        .unwrap());
+    pb.set_message("XZファイルを解凍中...");
+    
+    // .xz ファイルの元のファイル名を取得
+    let output_name = file_path.file_stem()
+        .and_then(|s| s.to_str())
+        .unwrap_or("extracted");
+    
+    let output_path = extract_dir.join(output_name);
+    let mut output_file = File::create(output_path)?;
+    
+    std::io::copy(&mut decoder, &mut output_file)?;
+    
+    pb.finish_with_message("XZ解凍完了!");
+    Ok(())
+}
