@@ -3,6 +3,9 @@ use indicatif::{ProgressBar, ProgressStyle};
 use std::path::Path;
 use unrar::Archive;
 
+// Import the i18n macro
+use rust_i18n::t;
+
 pub fn extract_rar(file_path: &Path, extract_dir: &Path) -> Result<()> {
     // unrar クレートを使用した実装
     std::fs::create_dir_all(extract_dir)?;
@@ -14,7 +17,7 @@ pub fn extract_rar(file_path: &Path, extract_dir: &Path) -> Result<()> {
     pb.set_style(ProgressStyle::default_spinner()
         .template("{spinner:.green} {elapsed_precise} {msg}")
         .unwrap());
-    pb.set_message("RARファイルを解凍中...");
+    pb.set_message(format!("{}", t!("progress.extracting_rar")));
     
     loop {
         match archive.read_header() {
@@ -24,7 +27,7 @@ pub fn extract_rar(file_path: &Path, extract_dir: &Path) -> Result<()> {
                 
                 // プログレスバーのメッセージを更新
                 if let Some(file_name) = entry.filename.as_path().file_name().and_then(|s| s.to_str()) {
-                    pb.set_message(format!("解凍中: {}", file_name));
+                    pb.set_message(format!("{}", t!("progress.extracting_file", file = file_name)));
                 }
                 
                 if entry.is_directory() {
@@ -44,7 +47,6 @@ pub fn extract_rar(file_path: &Path, extract_dir: &Path) -> Result<()> {
             Err(e) => return Err(e.into()),
         }
     }
-    
-    pb.finish_with_message("RAR解凍完了!");
+
     Ok(())
 }

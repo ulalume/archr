@@ -1,54 +1,52 @@
 # Decomp - macOS-like Archive Extractor
 
-macOS likeな解凍ツールです。
+A macOS-like archive extraction tool.
 
-## 機能
+## Features
 
-1. **多様な圧縮形式をサポート**
+1. **Support for Various Archive Formats**
    - ZIP, 7Z, RAR, TAR, GZ, XZ, BZ2
-   - TAR.GZ, TAR.XZ, TAR.BZ2, TGZなどの複合形式
+   - Compound formats like TAR.GZ, TAR.XZ, TAR.BZ2, TGZ
+   - Supports Japanese filenames in ZIP archives (Shift_JIS/CP932 encoding)
 
-2. **日本語ファイル名対応**
-   - ZIPファイルの日本語ファイル名に対応（Shift_JIS/CP932エンコーディング）
+2. **Simple Operation**
+   - Launch with double-click
+   - Select archive file through file dialog
+   - Automatic extraction to the same location
 
-3. **簡単な操作**
-   - ダブルクリックで起動
-   - ファイルダイアログで圧縮ファイルを選択
-   - その場所に自動解凍
+3. **Duplicate Handling**
+   - Automatic renaming with sequential numbers when directories with the same name exist
+   - Example: `archive` → `archive (1)` → `archive (2)`
 
-4. **重複処理**
-   - 同名ディレクトリがある場合、自動的に連番をつけてリネーム
-   - 例: `archive` → `archive (1)` → `archive (2)`
+4. **Error Handling**
+   - Error dialog display when extraction fails
+   - Debug information through log output
 
-5. **エラーハンドリング**
-   - 解凍失敗時はエラーダイアログを表示
-   - ログ出力でデバッグ情報を提供
+## Usage
 
-## 使用方法
-
-### 1. GUIモード（推奨）
+### 1. GUI Mode (Recommended)
 ```bash
 decomp.exe
 ```
-ファイルダイアログが開くので、解凍したい圧縮ファイルを選択してください。
+A file dialog will open for you to select the archive file you want to extract.
 
-### 2. コマンドラインモード
+### 2. Command Line Mode
 ```bash
 decomp.exe archive1.zip archive2.7z archive3.tar.gz
 ```
-指定したファイルを一括で解凍します。
+Batch extraction of specified files.
 
-## インストール
+## Installation
 
 ```bash
 cargo install --git https://github.com/ulalume/decomp
 ```
 
-### ファイル関連付け（オプション）
-Windowsのファイル関連付けで圧縮ファイルのデフォルトアプリに設定できます。  
-アプリの場所: `C:\Users\[username]\.cargo\bin\decomp.exe`
+### File Association (Optional)
+You can set this as the default application for archive files in Windows file associations.  
+Application location: `C:\Users\[username]\.cargo\bin\decomp.exe`
 
-## 対応形式
+## Supported Formats
 
 - **ZIP** (.zip)
 - **7-Zip** (.7z) 
@@ -58,7 +56,7 @@ Windowsのファイル関連付けで圧縮ファイルのデフォルトアプ�
 - **XZ** (.xz, .tar.xz)
 - **BZIP2** (.bz2, .tar.bz2)
 
-## 注意事項
+## Notes
 
-- パスワード付きアーカイブは現在サポートしていません
-- 開発中のためテスト不足の可能性があります。重要なファイルはバックアップを取ってからご使用ください
+- Password-protected archives are not currently supported
+- This is under development and may have insufficient testing. Please backup important files before use

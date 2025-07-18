@@ -4,19 +4,33 @@ use log::{error, info};
 use rfd::MessageDialog;
 use std::path::{Path, PathBuf};
 
+// Initialize rust-i18n
+rust_i18n::i18n!("locales", fallback = "en");
+use rust_i18n::t;
+
 mod extractors;
 use extractors::*;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// 解凍する圧縮ファイルのパス
+    /// Archive files to extract / 解凍する圧縮ファイルのパス
     files: Vec<PathBuf>,
 }
 
 #[tokio::main]
 async fn main() {
     env_logger::init();
+    
+    // Set locale based on system language, default to English
+    let locale = if std::env::var("LANG").unwrap_or_default().contains("ja") ||
+                   std::env::var("LC_ALL").unwrap_or_default().contains("ja") ||
+                   std::env::var("LANGUAGE").unwrap_or_default().contains("ja") {
+        "ja"
+    } else {
+        "en"
+    };
+    rust_i18n::set_locale(locale);
     
     let args = Args::parse();
     
@@ -25,7 +39,7 @@ async fn main() {
         match select_files().await {
             Some(files) => files,
             None => {
-                info!("ファイルが選択されませんでした");
+                info!("{}", t!("ui.no_files_selected").to_string());
                 return;
             }
         }
@@ -36,18 +50,20 @@ async fn main() {
     // 複数ファイルの処理
     for file_path in files_to_extract {
         if let Err(e) = extract_archive(&file_path).await {
-            error!("解凍に失敗しました: {} - {}", file_path.display(), e);
-            show_error_dialog(&format!("解凍に失敗しました: {}\n\nエラー: {}", file_path.display(), e));
+            let error_msg = t!("ui.extraction_failed", file = file_path.display(), error = e);
+            error!("{}", error_msg);
+            show_error_dialog(&error_msg);
         } else {
-            info!("✅ 解凍完了: {}", file_path.display());
+            let success_msg = t!("ui.extraction_complete", file = file_path.display());
+            info!("{}", success_msg);
         }
     }
 }
 
 async fn select_files() -> Option<Vec<PathBuf>> {
     let files = rfd::FileDialog::new()
-        .add_filter("圧縮ファイル", &["zip", "7z", "rar", "tar", "gz", "xz", "bz2", "tgz", "tar.gz", "tar.xz", "tar.bz2"])
-        .set_title("解凍するファイルを選択")
+        .add_filter(&t!("app.description").to_string(), &["zip", "7z", "rar", "tar", "gz", "xz", "bz2", "tgz", "tar.gz", "tar.xz", "tar.bz2"])
+        .set_title(&t!("ui.select_files_title").to_string())
         .pick_files()?;
     
     Some(files)
@@ -55,16 +71,16 @@ async fn select_files() -> Option<Vec<PathBuf>> {
 
 async fn extract_archive(file_path: &Path) -> Result<()> {
     if !file_path.exists() {
-        return Err(anyhow!("ファイルが存在しません: {}", file_path.display()));
+        return Err(anyhow!(t!("ui.error_file_not_found", file = file_path.display()).to_string()));
     }
 
     // 解凍先ディレクトリを決定（ファイルと同じディレクトリ）
     let parent_dir = file_path.parent()
-        .ok_or_else(|| anyhow!("親ディレクトリを取得できません"))?;
+        .ok_or_else(|| anyhow!(t!("ui.error_no_parent_dir").to_string()))?;
     
     let file_stem = file_path.file_stem()
         .and_then(|s| s.to_str())
-        .ok_or_else(|| anyhow!("ファイル名を取得できません"))?;
+        .ok_or_else(|| anyhow!(t!("ui.error_no_filename").to_string()))?;
     
     // .tar.gz のような複合拡張子も考慮
     let extract_dir_name = if file_stem.ends_with(".tar") {
@@ -78,7 +94,7 @@ async fn extract_archive(file_path: &Path) -> Result<()> {
     // 同名ディレクトリが存在する場合、連番をつける
     extract_dir = get_unique_path(extract_dir);
     
-    info!("📁 解凍開始: {} → {}", file_path.display(), extract_dir.display());
+    info!("{}", t!("status.extraction_start", source = file_path.display(), dest = extract_dir.display()).to_string());
     
     // ファイル拡張子に基づいて適切な解凍関数を呼び出し
     let extension = get_full_extension(file_path);
@@ -93,7 +109,7 @@ async fn extract_archive(file_path: &Path) -> Result<()> {
         "gz" => extract_gz(file_path, &extract_dir)?,
         "xz" => extract_xz(file_path, &extract_dir)?,
         "bz2" => extract_bz2(file_path, &extract_dir)?,
-        _ => return Err(anyhow!("サポートされていない形式です: {}", extension)),
+        _ => return Err(anyhow!(t!("ui.error_unsupported_format", format = extension).to_string())),
     }
     
     Ok(())
@@ -138,7 +154,7 @@ fn get_unique_path(mut path: PathBuf) -> PathBuf {
 
 fn show_error_dialog(message: &str) {
     MessageDialog::new()
-        .set_title("解凍エラー")
+        .set_title(&t!("ui.error_dialog_title").to_string())
         .set_description(message)
         .set_level(rfd::MessageLevel::Error)
         .show();

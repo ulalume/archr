@@ -4,6 +4,9 @@ use sevenz_rust::{Password, SevenZReader};
 use std::fs::{self, File};
 use std::path::Path;
 
+// Import the i18n macro
+use rust_i18n::t;
+
 pub fn extract_7z(file_path: &Path, extract_dir: &Path) -> Result<()> {
     let mut file = File::open(file_path)?;
     let file_size = file.metadata()?.len();
@@ -16,14 +19,14 @@ pub fn extract_7z(file_path: &Path, extract_dir: &Path) -> Result<()> {
     pb.set_style(ProgressStyle::default_spinner()
         .template("{spinner:.green} {elapsed_precise} {msg}")
         .unwrap());
-    pb.set_message("7Zファイルを解凍中...");
+    pb.set_message(format!("{}", t!("progress.extracting_7z")));
 
     sz.for_each_entries(|entry, reader| {
         let entry_path = extract_dir.join(&entry.name);
         
         // プログレスバーのメッセージを更新
         if let Some(file_name) = std::path::Path::new(&entry.name).file_name().and_then(|s| s.to_str()) {
-            pb.set_message(format!("解凍中: {}", file_name));
+            pb.set_message(format!("{}", t!("progress.extracting_file", file = file_name)));
         }
         
         if entry.is_directory() {
@@ -39,7 +42,5 @@ pub fn extract_7z(file_path: &Path, extract_dir: &Path) -> Result<()> {
         
         Ok(true)
     })?;
-
-    pb.finish_with_message("7Z解凍完了!");
     Ok(())
 }

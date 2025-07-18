@@ -5,6 +5,9 @@ use std::io::BufReader;
 use std::path::Path;
 use xz2::read::XzDecoder;
 
+// Import the i18n macro
+use rust_i18n::t;
+
 pub fn extract_xz(file_path: &Path, extract_dir: &Path) -> Result<()> {
     let file = File::open(file_path)?;
     let reader = BufReader::new(file);
@@ -17,7 +20,7 @@ pub fn extract_xz(file_path: &Path, extract_dir: &Path) -> Result<()> {
     pb.set_style(ProgressStyle::default_spinner()
         .template("{spinner:.green} {elapsed_precise} {msg}")
         .unwrap());
-    pb.set_message("XZファイルを解凍中...");
+    pb.set_message(format!("{}", t!("progress.extracting_xz")));
     
     // .xz ファイルの元のファイル名を取得
     let output_name = file_path.file_stem()
@@ -28,7 +31,5 @@ pub fn extract_xz(file_path: &Path, extract_dir: &Path) -> Result<()> {
     let mut output_file = File::create(output_path)?;
     
     std::io::copy(&mut decoder, &mut output_file)?;
-    
-    pb.finish_with_message("XZ解凍完了!");
     Ok(())
 }

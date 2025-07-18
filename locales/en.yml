@@ -1,0 +1,32 @@
+en:
+  app:
+    title: "Archive Extractor"
+    description: "Archive files to extract"
+  
+  ui:
+    select_files_title: "Select files to extract"
+    extracting: "Extracting..."
+    extraction_complete: "✅ Extraction complete: %{file}"
+    extraction_failed: "Extraction failed: %{file} - %{error}"
+    no_files_selected: "No files selected"
+    error_dialog_title: "Extraction Error"
+    error_file_not_found: "File not found: %{file}"
+    error_no_parent_dir: "Cannot get parent directory"
+    error_no_filename: "Cannot get filename"
+    error_unsupported_format: "Unsupported format: %{format}"
+    
+  progress:
+    extracting_zip: "Extracting ZIP file..."
+    extracting_7z: "Extracting 7Z file..."
+    extracting_rar: "Extracting RAR file..."
+    extracting_tar: "Extracting TAR file..."
+    extracting_tar_gz: "Extracting TAR.GZ file..."
+    extracting_tar_xz: "Extracting TAR.XZ file..."
+    extracting_tar_bz2: "Extracting TAR.BZ2 file..."
+    extracting_gz: "Extracting GZ file..."
+    extracting_xz: "Extracting XZ file..."
+    extracting_bz2: "Extracting BZ2 file..."
+    extracting_file: "Extracting: %{file}"
+    
+  status:
+    extraction_start: "📁 Starting extraction: %{source} → %{dest}"

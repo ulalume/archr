@@ -6,6 +6,9 @@ use std::io::BufReader;
 use std::path::{Path, PathBuf};
 use zip::ZipArchive;
 
+// Import the i18n macro
+use rust_i18n::t;
+
 pub fn extract_zip(file_path: &Path, extract_dir: &Path) -> Result<()> {
     let file = File::open(file_path)?;
     let reader = BufReader::new(file);
@@ -20,7 +23,7 @@ pub fn extract_zip(file_path: &Path, extract_dir: &Path) -> Result<()> {
         .unwrap()
         .progress_chars("#>-"));
     
-    pb.set_message("ZIPファイルを解凍中...");
+    pb.set_message(format!("{}", t!("progress.extracting_zip")));
 
     for i in 0..archive.len() {
         let mut file = archive.by_index(i)?;
@@ -37,7 +40,7 @@ pub fn extract_zip(file_path: &Path, extract_dir: &Path) -> Result<()> {
         
         // プログレスバーのメッセージを更新
         if let Some(file_name_str) = file_name.file_name().and_then(|s| s.to_str()) {
-            pb.set_message(format!("解凍中: {}", file_name_str));
+            pb.set_message(format!("{}", t!("progress.extracting_file", file = file_name_str)));
         }
 
         if file.name().ends_with('/') {
@@ -63,8 +66,6 @@ pub fn extract_zip(file_path: &Path, extract_dir: &Path) -> Result<()> {
         
         pb.inc(1);
     }
-
-    pb.finish_with_message("ZIP解凍完了!");
     Ok(())
 }
 

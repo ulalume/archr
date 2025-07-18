@@ -8,6 +8,9 @@ use tar::Archive;
 use xz2::read::XzDecoder;
 use bzip2::read::BzDecoder;
 
+// Import the i18n macro
+use rust_i18n::t;
+
 pub fn extract_tar(file_path: &Path, extract_dir: &Path) -> Result<()> {
     let file = File::open(file_path)?;
     let reader = BufReader::new(file);
@@ -20,11 +23,11 @@ pub fn extract_tar(file_path: &Path, extract_dir: &Path) -> Result<()> {
     pb.set_style(ProgressStyle::default_spinner()
         .template("{spinner:.green} {elapsed_precise} {msg}")
         .unwrap());
-    pb.set_message("TARファイルを解凍中...");
+    pb.set_message(format!("{}", t!("progress.extracting_tar")));
     
     archive.unpack(extract_dir)?;
     
-    pb.finish_with_message("TAR解凍完了!");
+    pb.finish_with_message(format!("{}", t!("progress.extracting_tar")));
     Ok(())
 }
 
@@ -41,11 +44,11 @@ pub fn extract_tar_gz(file_path: &Path, extract_dir: &Path) -> Result<()> {
     pb.set_style(ProgressStyle::default_spinner()
         .template("{spinner:.green} {elapsed_precise} {msg}")
         .unwrap());
-    pb.set_message("TAR.GZファイルを解凍中...");
+    pb.set_message(format!("{}", t!("progress.extracting_tar_gz")));
     
     archive.unpack(extract_dir)?;
     
-    pb.finish_with_message("TAR.GZ解凍完了!");
+    pb.finish_with_message(format!("{}", t!("progress.extracting_tar_gz")));
     Ok(())
 }
 
@@ -62,11 +65,11 @@ pub fn extract_tar_xz(file_path: &Path, extract_dir: &Path) -> Result<()> {
     pb.set_style(ProgressStyle::default_spinner()
         .template("{spinner:.green} {elapsed_precise} {msg}")
         .unwrap());
-    pb.set_message("TAR.XZファイルを解凍中...");
+    pb.set_message(format!("{}", t!("progress.extracting_tar_xz")));
     
     archive.unpack(extract_dir)?;
     
-    pb.finish_with_message("TAR.XZ解凍完了!");
+    pb.finish_with_message(format!("{}", t!("progress.extracting_tar_xz")));
     Ok(())
 }
 
@@ -83,10 +86,8 @@ pub fn extract_tar_bz2(file_path: &Path, extract_dir: &Path) -> Result<()> {
     pb.set_style(ProgressStyle::default_spinner()
         .template("{spinner:.green} {elapsed_precise} {msg}")
         .unwrap());
-    pb.set_message("TAR.BZ2ファイルを解凍中...");
+    pb.set_message(format!("{}", t!("progress.extracting_tar_bz2")));
     
     archive.unpack(extract_dir)?;
-    
-    pb.finish_with_message("TAR.BZ2解凍完了!");
     Ok(())
 }
