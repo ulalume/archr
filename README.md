@@ -7,7 +7,7 @@ A macOS-like archive extraction tool.
 1. **Support for Various Archive Formats**
    - ZIP, 7Z, RAR, TAR, GZ, XZ, BZ2, LHA, LZH
    - Compound formats like TAR.GZ, TAR.XZ, TAR.BZ2, TGZ
-   - Supports Japanese filenames in ZIP archives (Shift_JIS/CP932 encoding)
+   - Supports Japanese filenames (Shift_JIS/CP932 encoding)
 
 2. **Simple Operation**
    - Launch with double-click

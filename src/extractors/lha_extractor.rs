@@ -1,12 +1,14 @@
 use anyhow::Result;
-use encoding_rs::SHIFT_JIS;
 use indicatif::{ProgressBar, ProgressStyle};
 use std::fs::{self, File};
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 // Import the i18n macro
 use rust_i18n::t;
+
+// Import common decode function
+use super::common::decode_filename_as_pathbuf;
 
 pub fn extract_lha(file_path: &Path, extract_dir: &Path) -> Result<()> {
     fs::create_dir_all(extract_dir)?;
@@ -29,7 +31,7 @@ pub fn extract_lha(file_path: &Path, extract_dir: &Path) -> Result<()> {
         match delharc::LhaDecodeReader::new(&mut cursor) {
             Ok(mut decoder) => {
                 let header = decoder.header();
-                let filename = decode_filename(&header.filename);
+                let filename = decode_filename_as_pathbuf(&header.filename);
                 let output_path = extract_dir.join(&filename);
                 
                 pb.set_message(format!("{}", t!("progress.extracting_file", file = filename.to_string_lossy())));
@@ -76,7 +78,6 @@ pub fn extract_lha(file_path: &Path, extract_dir: &Path) -> Result<()> {
     }
     
     if extracted_files > 0 {
-        pb.finish_with_message(format!("{} - {} files extracted", t!("progress.extracting_lha"), extracted_files));
         Ok(())
     } else {
         pb.finish_with_message("LHA extraction failed");
@@ -84,14 +85,7 @@ pub fn extract_lha(file_path: &Path, extract_dir: &Path) -> Result<()> {
     }
 }
 
-/// ファイル名のデコード（日本語対応）
-fn decode_filename(raw_bytes: &[u8]) -> PathBuf {
-    // まずUTF-8として試す
-    if let Ok(utf8_str) = std::str::from_utf8(raw_bytes) {
-        return PathBuf::from(utf8_str);
-    }
-    
-    // UTF-8でない場合、Shift_JISとしてデコード
-    let (decoded, _, _) = SHIFT_JIS.decode(raw_bytes);
-    PathBuf::from(decoded.into_owned())
+pub fn extract_lzh(file_path: &Path, extract_dir: &Path) -> Result<()> {
+    // LZH形式もLHA形式と同じ処理
+    extract_lha(file_path, extract_dir)
 }

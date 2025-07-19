@@ -1,3 +1,4 @@
+pub mod common;
 pub mod zip_extractor;
 pub mod sevenz_extractor;
 pub mod rar_extractor;

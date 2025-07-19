@@ -109,7 +109,8 @@ async fn extract_archive(file_path: &Path) -> Result<()> {
         "gz" => extract_gz(file_path, &extract_dir)?,
         "xz" => extract_xz(file_path, &extract_dir)?,
         "bz2" => extract_bz2(file_path, &extract_dir)?,
-        "lha" | "lzh" => extract_lha(file_path, &extract_dir)?,
+        "lha" => extract_lha(file_path, &extract_dir)?,
+        "lzh" => extract_lzh(file_path, &extract_dir)?,
         _ => return Err(anyhow!(t!("ui.error_unsupported_format", format = extension).to_string())),
     }
     

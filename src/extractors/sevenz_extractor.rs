@@ -7,6 +7,9 @@ use std::path::Path;
 // Import the i18n macro
 use rust_i18n::t;
 
+// Import common decode function
+use super::common::decode_filename_as_pathbuf;
+
 pub fn extract_7z(file_path: &Path, extract_dir: &Path) -> Result<()> {
     let mut file = File::open(file_path)?;
     let file_size = file.metadata()?.len();
@@ -22,10 +25,12 @@ pub fn extract_7z(file_path: &Path, extract_dir: &Path) -> Result<()> {
     pb.set_message(format!("{}", t!("progress.extracting_7z")));
 
     sz.for_each_entries(|entry, reader| {
-        let entry_path = extract_dir.join(&entry.name);
+        // ファイル名を適切にデコード
+        let decoded_name = decode_filename_as_pathbuf(entry.name.as_bytes());
+        let entry_path = extract_dir.join(&decoded_name);
         
         // プログレスバーのメッセージを更新
-        if let Some(file_name) = std::path::Path::new(&entry.name).file_name().and_then(|s| s.to_str()) {
+        if let Some(file_name) = decoded_name.file_name().and_then(|s| s.to_str()) {
             pb.set_message(format!("{}", t!("progress.extracting_file", file = file_name)));
         }
         
@@ -40,7 +45,9 @@ pub fn extract_7z(file_path: &Path, extract_dir: &Path) -> Result<()> {
             std::io::copy(reader, &mut output_file)?;
         }
         
+        pb.inc(1);
         Ok(true)
     })?;
+    
     Ok(())
 }
