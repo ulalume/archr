@@ -1,36 +1,22 @@
 # Decomp - macOS-like Archive Extractor
 
-A macOS-like archive extraction tool.
+A macOS-like archive extraction tool. Cross-platform, but primarily targeting Windows.
 
-## Features
-
-1. **Support for Various Archive Formats**
-   - ZIP, 7Z, RAR, TAR, GZ, XZ, BZ2, LHA, LZH
-   - Compound formats like TAR.GZ, TAR.XZ, TAR.BZ2, TGZ
-   - Supports Japanese filenames (Shift_JIS/CP932 encoding)
-
-2. **Simple Operation**
-   - Launch with double-click
-   - Select archive file through file dialog
-   - Automatic extraction to the same location
-
-3. **Duplicate Handling**
-   - Automatic renaming with sequential numbers when directories with the same name exist
-   - Example: `archive` → `archive (1)` → `archive (2)`
-
-4. **Error Handling**
-   - Error dialog display when extraction fails
-   - Debug information through log output
+🇯🇵 日本語版 README は[こちら](./README.ja.md)をご覧ください。
 
 ## Usage
 
-### 1. GUI Mode (Recommended)
+### 1. File Association (Recommended)
+Set this as the default application for archive files in Windows file associations. Once configured, you can simply double-click any archive file to extract it in place.  
+Application location: `C:\Users\[username]\.cargo\bin\decomp.exe`
+
+### 2. GUI Mode
 ```bash
 decomp.exe
 ```
 A file dialog will open for you to select the archive file you want to extract.
 
-### 2. Command Line Mode
+### 3. Command Line Mode
 ```bash
 decomp.exe archive1.zip archive2.7z archive3.tar.gz
 ```
@@ -42,10 +28,6 @@ Batch extraction of specified files.
 cargo install --git https://github.com/ulalume/decomp
 ```
 
-### File Association (Optional)
-You can set this as the default application for archive files in Windows file associations.  
-Application location: `C:\Users\[username]\.cargo\bin\decomp.exe`
-
 ## Supported Formats
 
 - **ZIP** (.zip)
@@ -56,8 +38,8 @@ Application location: `C:\Users\[username]\.cargo\bin\decomp.exe`
 - **XZ** (.xz, .tar.xz)
 - **BZIP2** (.bz2, .tar.bz2)
 - **LHA/LZH** (.lha, .lzh)
+- Supports Japanese filenames (Shift_JIS/CP932 encoding)
 
 ## Notes
 
 - Password-protected archives are not currently supported
-- This is under development and may have insufficient testing. Please backup important files before use
