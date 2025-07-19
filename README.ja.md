@@ -5,7 +5,7 @@ macOS likeな解凍ツールです。クロスプラットフォームですが�
 ## 使用方法
 
 ### 1. ファイル関連付け（推奨）
-Windowsのファイル関連付けで圧縮ファイルのデフォルトアプリに設定すると、圧縮ファイルをダブルクリックするだけでその場に解凍できます。  
+Windowsのファイル関連付けで圧縮ファイルのデフォルトアプリに設定すると、圧縮ファイルをダブルクリックするだけでその場に解凍できます。
 アプリの場所: `C:\Users\[username]\.cargo\bin\decomp.exe`
 
 ### 2. GUIモード
@@ -29,7 +29,7 @@ cargo install --git https://github.com/ulalume/decomp
 ## 対応形式
 
 - **ZIP** (.zip)
-- **7-Zip** (.7z) 
+- **7-Zip** (.7z)
 - **RAR** (.rar)
 - **TAR** (.tar)
 - **GZIP** (.gz, .tar.gz, .tgz)

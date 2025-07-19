@@ -1,13 +1,13 @@
 # Decomp - macOS-like Archive Extractor
 
-A macOS-like archive extraction tool. Cross-platform, but primarily targeting Windows.
-
 🇯🇵 日本語版 README は[こちら](./README.ja.md)をご覧ください。
+
+A macOS-like archive extraction tool. Cross-platform, but primarily targeting Windows.
 
 ## Usage
 
 ### 1. File Association (Recommended)
-Set this as the default application for archive files in Windows file associations. Once configured, you can simply double-click any archive file to extract it in place.  
+Set this as the default application for archive files in Windows file associations. Once configured, you can simply double-click any archive file to extract it in place.
 Application location: `C:\Users\[username]\.cargo\bin\decomp.exe`
 
 ### 2. GUI Mode
@@ -31,7 +31,7 @@ cargo install --git https://github.com/ulalume/decomp
 ## Supported Formats
 
 - **ZIP** (.zip)
-- **7-Zip** (.7z) 
+- **7-Zip** (.7z)
 - **RAR** (.rar)
 - **TAR** (.tar)
 - **GZIP** (.gz, .tar.gz, .tgz)
