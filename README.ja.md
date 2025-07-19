@@ -2,7 +2,13 @@
 
 macOS likeな解凍ツールです。クロスプラットフォームですが主にWindowsをターゲットにしています。
 
-## 使用方法
+## インストール方法
+
+```bash
+cargo install --git https://github.com/ulalume/decomp
+```
+
+## 使い方
 
 ### 1. ファイル関連付け（推奨）
 Windowsのファイル関連付けで圧縮ファイルのデフォルトアプリに設定すると、圧縮ファイルをダブルクリックするだけでその場に解凍できます。
@@ -19,12 +25,6 @@ decomp.exe
 decomp.exe archive1.zip archive2.7z archive3.tar.gz
 ```
 指定したファイルを一括で解凍します。
-
-## インストール
-
-```bash
-cargo install --git https://github.com/ulalume/decomp
-```
 
 ## 対応形式
 

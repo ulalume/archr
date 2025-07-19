@@ -4,6 +4,12 @@
 
 A macOS-like archive extraction tool. Cross-platform, but primarily targeting Windows.
 
+## Installation
+
+```bash
+cargo install --git https://github.com/ulalume/decomp
+```
+
 ## Usage
 
 ### 1. File Association (Recommended)
@@ -21,12 +27,6 @@ A file dialog will open for you to select the archive file you want to extract.
 decomp.exe archive1.zip archive2.7z archive3.tar.gz
 ```
 Batch extraction of specified files.
-
-## Installation
-
-```bash
-cargo install --git https://github.com/ulalume/decomp
-```
 
 ## Supported Formats
 
