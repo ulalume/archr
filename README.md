@@ -5,7 +5,7 @@ A macOS-like archive extraction tool.
 ## Features
 
 1. **Support for Various Archive Formats**
-   - ZIP, 7Z, RAR, TAR, GZ, XZ, BZ2
+   - ZIP, 7Z, RAR, TAR, GZ, XZ, BZ2, LHA, LZH
    - Compound formats like TAR.GZ, TAR.XZ, TAR.BZ2, TGZ
    - Supports Japanese filenames in ZIP archives (Shift_JIS/CP932 encoding)
 
@@ -55,6 +55,7 @@ Application location: `C:\Users\[username]\.cargo\bin\decomp.exe`
 - **GZIP** (.gz, .tar.gz, .tgz)
 - **XZ** (.xz, .tar.xz)
 - **BZIP2** (.bz2, .tar.bz2)
+- **LHA/LZH** (.lha, .lzh)
 
 ## Notes
 

@@ -62,7 +62,7 @@ async fn main() {
 
 async fn select_files() -> Option<Vec<PathBuf>> {
     let files = rfd::FileDialog::new()
-        .add_filter(&t!("app.description").to_string(), &["zip", "7z", "rar", "tar", "gz", "xz", "bz2", "tgz", "tar.gz", "tar.xz", "tar.bz2"])
+        .add_filter(&t!("app.description").to_string(), &["zip", "7z", "rar", "tar", "gz", "xz", "bz2", "tgz", "tar.gz", "tar.xz", "tar.bz2", "lha", "lzh"])
         .set_title(&t!("ui.select_files_title").to_string())
         .pick_files()?;
     
@@ -109,6 +109,7 @@ async fn extract_archive(file_path: &Path) -> Result<()> {
         "gz" => extract_gz(file_path, &extract_dir)?,
         "xz" => extract_xz(file_path, &extract_dir)?,
         "bz2" => extract_bz2(file_path, &extract_dir)?,
+        "lha" | "lzh" => extract_lha(file_path, &extract_dir)?,
         _ => return Err(anyhow!(t!("ui.error_unsupported_format", format = extension).to_string())),
     }
     

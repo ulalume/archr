@@ -26,6 +26,7 @@ en:
     extracting_gz: "Extracting GZ file..."
     extracting_xz: "Extracting XZ file..."
     extracting_bz2: "Extracting BZ2 file..."
+    extracting_lha: "Extracting LHA/LZH file..."
     extracting_file: "Extracting: %{file}"
     
   status:

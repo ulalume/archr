@@ -5,7 +5,7 @@ macOS likeな解凍ツールです。
 ## 機能
 
 1. **多様な圧縮形式をサポート**
-   - ZIP, 7Z, RAR, TAR, GZ, XZ, BZ2
+   - ZIP, 7Z, RAR, TAR, GZ, XZ, BZ2, LHA, LZH
    - TAR.GZ, TAR.XZ, TAR.BZ2, TGZなどの複合形式
    - ZIPファイルの日本語ファイル名に対応（Shift_JIS/CP932エンコーディング）
 
@@ -55,6 +55,7 @@ Windowsのファイル関連付けで圧縮ファイルのデフォルトアプ�
 - **GZIP** (.gz, .tar.gz, .tgz)
 - **XZ** (.xz, .tar.xz)
 - **BZIP2** (.bz2, .tar.bz2)
+- **LHA/LZH** (.lha, .lzh)
 
 ## 注意事項
 

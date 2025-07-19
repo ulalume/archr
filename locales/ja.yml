@@ -26,6 +26,7 @@ ja:
     extracting_gz: "GZファイルを解凍中..."
     extracting_xz: "XZファイルを解凍中..."
     extracting_bz2: "BZ2ファイルを解凍中..."
+    extracting_lha: "LHA/LZHファイルを解凍中..."
     extracting_file: "解凍中: %{file}"
     
   status:
