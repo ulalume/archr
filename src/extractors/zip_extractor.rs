@@ -20,16 +20,18 @@ pub fn extract_zip(file_path: &Path, extract_dir: &Path) -> Result<()> {
 
     // プログレスバーの設定
     let pb = ProgressBar::new(archive.len() as u64);
-    pb.set_style(ProgressStyle::default_bar()
-        .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos}/{len} {msg}")
-        .unwrap()
-        .progress_chars("#>-"));
-    
+    pb.set_style(
+        ProgressStyle::default_bar()
+            .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos}/{len} {msg}")
+            .unwrap()
+            .progress_chars("#>-"),
+    );
+
     pb.set_message(format!("{}", t!("progress.extracting_zip")));
 
     for i in 0..archive.len() {
         let mut file = archive.by_index(i)?;
-        
+
         // ファイル名の文字エンコーディングを処理
         let file_name = {
             // 常に生のバイト列からファイル名を取得し、適切にデコード
@@ -37,12 +39,15 @@ pub fn extract_zip(file_path: &Path, extract_dir: &Path) -> Result<()> {
             let decoded_name = decode_filename(raw_name);
             PathBuf::from(decoded_name)
         };
-        
+
         let outpath = extract_dir.join(&file_name);
-        
+
         // プログレスバーのメッセージを更新
         if let Some(file_name_str) = file_name.file_name().and_then(|s| s.to_str()) {
-            pb.set_message(format!("{}", t!("progress.extracting_file", file = file_name_str)));
+            pb.set_message(format!(
+                "{}",
+                t!("progress.extracting_file", file = file_name_str)
+            ));
         }
 
         if file.name().ends_with('/') {
@@ -65,7 +70,7 @@ pub fn extract_zip(file_path: &Path, extract_dir: &Path) -> Result<()> {
                 fs::set_permissions(&outpath, fs::Permissions::from_mode(mode))?;
             }
         }
-        
+
         pb.inc(1);
     }
     Ok(())

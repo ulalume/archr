@@ -2,7 +2,7 @@ ja:
   app:
     title: "アーカイブ解凍ツール"
     description: "解凍する圧縮ファイルのパス"
-  
+
   ui:
     select_files_title: "解凍するファイルを選択"
     extracting: "解凍中..."
@@ -14,7 +14,7 @@ ja:
     error_no_parent_dir: "親ディレクトリを取得できません"
     error_no_filename: "ファイル名を取得できません"
     error_unsupported_format: "サポートされていない形式です: %{format}"
-    
+
   progress:
     extracting_zip: "ZIPファイルを解凍中..."
     extracting_7z: "7Zファイルを解凍中..."
@@ -28,6 +28,6 @@ ja:
     extracting_bz2: "BZ2ファイルを解凍中..."
     extracting_lha: "LHA/LZHファイルを解凍中..."
     extracting_file: "解凍中: %{file}"
-    
+
   status:
     extraction_start: "📁 解凍開始: %{source} → %{dest}"

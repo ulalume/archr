@@ -1,8 +1,14 @@
 [package]
-name = "decomp"
-version = "0.1.2"
+name = "archr"
+version = "0.2.0"
 edition = "2021"
+description = "macOS-like Archive Extractor"
 license = "MIT"
+repository = "https://github.com/ulalume/archr"
+readme = "README.md"
+keywords = ["cli", "extract", "unarchive", "unzip"]
+categories = ["command-line-utilities"]
+exclude = ["/target", ".github"]
 
 [dependencies]
 zip = "0.6"

@@ -2,7 +2,7 @@ en:
   app:
     title: "Archive Extractor"
     description: "Archive files to extract"
-  
+
   ui:
     select_files_title: "Select files to extract"
     extracting: "Extracting..."
@@ -14,7 +14,7 @@ en:
     error_no_parent_dir: "Cannot get parent directory"
     error_no_filename: "Cannot get filename"
     error_unsupported_format: "Unsupported format: %{format}"
-    
+
   progress:
     extracting_zip: "Extracting ZIP file..."
     extracting_7z: "Extracting 7Z file..."
@@ -28,6 +28,6 @@ en:
     extracting_bz2: "Extracting BZ2 file..."
     extracting_lha: "Extracting LHA/LZH file..."
     extracting_file: "Extracting: %{file}"
-    
+
   status:
     extraction_start: "📁 Starting extraction: %{source} → %{dest}"

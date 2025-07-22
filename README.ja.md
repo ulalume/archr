@@ -1,28 +1,28 @@
-# Decomp - macOS-like Archive Extractor
+# Archr - macOS-like Archive Extractor
 
 macOS likeな解凍ツールです。クロスプラットフォームですが主にWindowsをターゲットにしています。
 
 ## インストール方法
 
 ```bash
-cargo install --git https://github.com/ulalume/decomp
+cargo install --git https://github.com/ulalume/archr
 ```
 
 ## 使い方
 
 ### 1. ファイル関連付け（推奨）
 Windowsのファイル関連付けで圧縮ファイルのデフォルトアプリに設定すると、圧縮ファイルをダブルクリックするだけでその場に解凍できます。
-アプリの場所: `C:\Users\[username]\.cargo\bin\decomp.exe`
+アプリの場所: `C:\Users\[username]\.cargo\bin\archr.exe`
 
 ### 2. GUIモード
 ```bash
-decomp.exe
+archr.exe
 ```
 ファイルダイアログが開くので、解凍したい圧縮ファイルを選択してください。
 
 ### 3. コマンドラインモード
 ```bash
-decomp.exe archive1.zip archive2.7z archive3.tar.gz
+archr.exe archive1.zip archive2.7z archive3.tar.gz
 ```
 指定したファイルを一括で解凍します。
 
